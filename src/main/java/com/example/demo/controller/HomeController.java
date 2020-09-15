@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -17,11 +16,11 @@ import java.util.TimeZone;
 public class HomeController {
 
     @GetMapping("/")
-    public void home(HttpServletRequest request, HttpServletResponse response,
-                     Model model, ModelMap modelMap,
-                     HttpSession session, Locale locale, TimeZone timeZone) throws IOException {
-        PrintWriter writer = response.getWriter();
-        writer.println("Hello World");
+    public String home(HttpServletRequest request, HttpServletResponse response,
+                       Model model, ModelMap modelMap,
+                       HttpSession session, Locale locale, TimeZone timeZone) throws IOException {
+        model.addAttribute("message", "Hello World");
+        return "index";
     }
 
 }
