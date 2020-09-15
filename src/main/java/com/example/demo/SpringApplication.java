@@ -1,23 +1,38 @@
 package com.example.demo;
 
-import com.example.demo.config.AppConfig;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
-import java.util.Locale;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.Properties;
 
 public class SpringApplication {
+    private static final Logger LOG = LoggerFactory.getLogger(SpringApplication.class);
 
     public static void main(String[] args) throws Exception {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-        boolean active = applicationContext.isActive();
-        System.out.println("applicationContext is active " + active);
+        ClassPathResource resource = new ClassPathResource("application.properties", SpringApplication.class.getClassLoader());
+        Properties properties = new Properties();
+        properties.load(resource.getInputStream());
 
-        ConfigurableEnvironment environment = applicationContext.getEnvironment();
-        String applicationName = environment.getProperty("spring.application.name", String.class);
-        System.out.println("spring.application.name : " + applicationName);
+        int port = Integer.parseInt(properties.getProperty("server.port", "8080"));
+        String webapp = properties.getProperty("server.webapp", "src/main/webapp");
+        String contextPath = properties.getProperty("server.servlet.context-path", "");
+        String applicationName = properties.getProperty("spring.application.name", "SpringApplication");
 
-        String message = applicationContext.getMessage("argument.required", new Object[]{"message"}, Locale.getDefault());
-        System.out.println(message);
+        Tomcat tomcat = new Tomcat();
+        tomcat.setBaseDir("out/webapp");
+        Connector connector = tomcat.getConnector();
+        connector.setURIEncoding(StandardCharsets.UTF_8.displayName());
+
+        tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+        tomcat.setPort(port);
+        tomcat.start();
+        LOG.info("{} started {}", applicationName, new Date());
+        tomcat.getServer().await();
     }
 }
