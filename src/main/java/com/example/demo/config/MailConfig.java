@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
@@ -33,7 +34,7 @@ public class MailConfig implements EnvironmentAware {
     }
 
     @Bean
-    public MailSender mailSender() {
+    public JavaMailSender javaMailSender() {
         String host = environment.getProperty(MAIL_HOST, String.class);
         int port = environment.getProperty(MAIL_PORT, Integer.class, -1);
         String protocol = environment.getProperty(MAIL_PROTOCOL, String.class);
@@ -51,8 +52,8 @@ public class MailConfig implements EnvironmentAware {
 
         boolean auth = environment.getProperty(MAIL_SMTP_AUTH, Boolean.class, false);
         boolean sslEnable = environment.getProperty(MAIL_SMTP_SSL_ENABLE, Boolean.class, false);
-        boolean startTlsRequired = environment.getProperty(MAIL_SMTP_STARTTLS_REQUIRED, Boolean.class, false);
         boolean startTlsEnable = environment.getProperty(MAIL_SMTP_STARTTLS_ENABLE, Boolean.class, false);
+        boolean startTlsRequired = environment.getProperty(MAIL_SMTP_STARTTLS_REQUIRED, Boolean.class, false);
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.setProperty(MAIL_SMTP_AUTH, Boolean.toString(auth));
@@ -61,5 +62,12 @@ public class MailConfig implements EnvironmentAware {
         javaMailProperties.setProperty(MAIL_SMTP_STARTTLS_REQUIRED, Boolean.toString(startTlsRequired));
         javaMailSender.setJavaMailProperties(javaMailProperties);
         return javaMailSender;
+    }
+
+    @Bean
+    public FreeMarkerConfigurationFactoryBean mailConfigurationFactoryBean() {
+        FreeMarkerConfigurationFactoryBean configurationFactoryBean= new FreeMarkerConfigurationFactoryBean();
+        configurationFactoryBean.setTemplateLoaderPath("classpath:/templates/mail");
+        return configurationFactoryBean;
     }
 }
