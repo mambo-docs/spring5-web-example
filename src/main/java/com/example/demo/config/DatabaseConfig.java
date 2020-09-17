@@ -7,9 +7,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+@EnableTransactionManagement
 @PropertySource({"classpath:/application.properties"})
 @ComponentScan({
     "com.example.demo.repository",
@@ -29,6 +33,11 @@ public class DatabaseConfig implements EnvironmentAware {
         dataSource.setPassword(environment.getProperty("spring.datasource.password", String.class));
         dataSource.setAutoCommit(environment.getProperty("spring.datasource.auto-commit", Boolean.class, false));
         return dataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Override
