@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.springframework:spring-jdbc:5.2.8.RELEASE'
     implementation 'org.postgresql:postgresql:42.2.16'
 
+    implementation 'org.springframework:spring-webflux:5.2.8.RELEASE'
+    implementation 'io.projectreactor.netty:reactor-netty:0.9.12.RELEASE'
+
     testCompile 'org.springframework:spring-test:5.2.8.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
