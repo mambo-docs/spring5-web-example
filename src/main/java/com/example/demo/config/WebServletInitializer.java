@@ -1,6 +1,9 @@
 package com.example.demo.config;
 
+import org.springframework.web.filter.FormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 /**
  * web.xml(Deployment Descriptor)
@@ -22,5 +25,10 @@ public class WebServletInitializer extends AbstractAnnotationConfigDispatcherSer
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{ new FormContentFilter() };
     }
 }
