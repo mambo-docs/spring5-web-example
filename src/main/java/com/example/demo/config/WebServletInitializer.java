@@ -11,7 +11,7 @@ public class WebServletInitializer extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { AppConfig.class };
+        return new Class<?>[] { AppConfig.class, HttpSessionConfig.class };
     }
 
     @Override
