@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import ch.qos.logback.access.tomcat.LogbackValve;
+import org.apache.catalina.Pipeline;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.slf4j.Logger;
@@ -28,8 +30,13 @@ public class SpringApplication {
         tomcat.setBaseDir("out/webapp");
         Connector connector = tomcat.getConnector();
         connector.setURIEncoding(StandardCharsets.UTF_8.displayName());
-
         tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+
+        Pipeline pipeline = tomcat.getHost().getPipeline();
+        LogbackValve logbackValve = new LogbackValve();
+        logbackValve.setFilename("logback-access.xml");
+        pipeline.addValve(logbackValve);
+
         tomcat.setPort(port);
         tomcat.start();
         LOG.info("{} started {}", applicationName, new Date());
