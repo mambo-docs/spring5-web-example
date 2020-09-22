@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -29,7 +31,10 @@ public class SpringApplication {
         Connector connector = tomcat.getConnector();
         connector.setURIEncoding(StandardCharsets.UTF_8.displayName());
 
-        tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+        Context context = tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+        StandardJarScanner jarScanner = (StandardJarScanner) context.getJarScanner();
+        jarScanner.setScanManifest(false);
+
         tomcat.setPort(port);
         tomcat.start();
         LOG.info("{} started {}", applicationName, new Date());
