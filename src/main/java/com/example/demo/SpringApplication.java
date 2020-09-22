@@ -1,9 +1,11 @@
 package com.example.demo;
 
+import org.apache.catalina.Context;
 import ch.qos.logback.access.tomcat.LogbackValve;
 import org.apache.catalina.Pipeline;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -30,6 +32,11 @@ public class SpringApplication {
         tomcat.setBaseDir("out/webapp");
         Connector connector = tomcat.getConnector();
         connector.setURIEncoding(StandardCharsets.UTF_8.displayName());
+
+        Context context = tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+        StandardJarScanner jarScanner = (StandardJarScanner) context.getJarScanner();
+        jarScanner.setScanManifest(false);
+
         tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
 
         Pipeline pipeline = tomcat.getHost().getPipeline();
