@@ -1,5 +1,14 @@
 plugins {
     id 'java'
+    id "io.spring.dependency-management" version "1.0.10.RELEASE"
+}
+
+dependencyManagement {
+    imports {
+//        mavenBom 'org.springframework:spring-framework-bom:5.2.8.RELEASE'
+//        mavenBom 'org.springframework.session:spring-session-bom:Dragonfruit-RELEASE'
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.3.3.RELEASE'
+    }
 }
 
 group 'org.example'
@@ -10,41 +19,41 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-webmvc:5.2.8.RELEASE'
+    implementation 'org.springframework:spring-webmvc'
 
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'javax.servlet:javax.servlet-api'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.37'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.37'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 
-    implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation 'ch.qos.logback:logback-access:1.2.3'
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'ch.qos.logback:logback-access'
 
-    implementation 'org.freemarker:freemarker:2.3.30'
-    implementation 'org.springframework:spring-context-support:5.2.8.RELEASE'
+    implementation 'org.freemarker:freemarker'
+    implementation 'org.springframework:spring-context-support'
 
     implementation 'com.sun.mail:javax.mail:1.6.2'
     
-    implementation 'com.zaxxer:HikariCP:3.4.5'
-    implementation 'org.springframework:spring-jdbc:5.2.8.RELEASE'
-    implementation 'org.postgresql:postgresql:42.2.16'
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'org.springframework:spring-jdbc'
+    implementation 'org.postgresql:postgresql'
 
-    implementation 'org.springframework:spring-webflux:5.2.8.RELEASE'
-    implementation 'io.projectreactor.netty:reactor-netty:0.9.12.RELEASE'
+    implementation 'org.springframework:spring-webflux'
+    implementation 'io.projectreactor.netty:reactor-netty'
 
-    implementation 'org.springframework.session:spring-session-core:2.3.0.RELEASE'
-    implementation 'org.springframework.session:spring-session-data-redis:2.3.0.RELEASE'
-    implementation 'io.lettuce:lettuce-core:5.3.3.RELEASE'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'io.lettuce:lettuce-core'
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'net.minidev:json-smart:2.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.google.code.gson:gson'
+    implementation 'net.minidev:json-smart'
 
-    implementation 'org.quartz-scheduler:quartz:2.3.2'
-    implementation 'org.quartz-scheduler:quartz-jobs:2.3.2'
-    implementation 'org.springframework:spring-tx:5.2.8.RELEASE'
+    implementation 'org.quartz-scheduler:quartz'
+    implementation 'org.quartz-scheduler:quartz-jobs'
+    implementation 'org.springframework:spring-tx'
 
-    testCompile 'org.springframework:spring-test:5.2.8.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.springframework:spring-test'
+    testCompile 'junit:junit'
 }
