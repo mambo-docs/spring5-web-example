@@ -36,8 +36,7 @@ public class SpringApplication {
         Context context = tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
         StandardJarScanner jarScanner = (StandardJarScanner) context.getJarScanner();
         jarScanner.setScanManifest(false);
-
-        tomcat.addWebapp(contextPath, new File(webapp).getAbsolutePath());
+        context.setJarScanner(jarScanner);
 
         Pipeline pipeline = tomcat.getHost().getPipeline();
         LogbackValve logbackValve = new LogbackValve();
