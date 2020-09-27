@@ -5,6 +5,7 @@ import ch.qos.logback.access.tomcat.LogbackValve;
 import org.apache.catalina.Pipeline;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,10 @@ public class SpringApplication {
         StandardJarScanner jarScanner = (StandardJarScanner) context.getJarScanner();
         jarScanner.setScanManifest(false);
         context.setJarScanner(jarScanner);
+
+        ErrorPage errorPage = new ErrorPage();
+        errorPage.setLocation("/error");
+        context.addErrorPage(errorPage);
 
         Pipeline pipeline = tomcat.getHost().getPipeline();
         LogbackValve logbackValve = new LogbackValve();
