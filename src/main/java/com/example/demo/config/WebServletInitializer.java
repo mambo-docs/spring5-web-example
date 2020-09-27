@@ -1,10 +1,12 @@
 package com.example.demo.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.FormContentFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * web.xml(Deployment Descriptor)
@@ -30,6 +32,6 @@ public class WebServletInitializer extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected Filter[] getServletFilters() {
-        return new Filter[]{ new ForwardedHeaderFilter(), new FormContentFilter() };
+        return new Filter[]{ new ForwardedHeaderFilter(), new FormContentFilter(), new CharacterEncodingFilter(StandardCharsets.UTF_8.name())};
     }
 }
