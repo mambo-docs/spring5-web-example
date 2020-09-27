@@ -68,12 +68,16 @@ public class SecurityConfig {
                 headers.cacheControl(Customizer.withDefaults());
             });
 
-            http.authorizeRequests().antMatchers("/**").authenticated();
+            http.authorizeRequests()
+                    .antMatchers("/users").hasRole("ADMIN")
+                    .antMatchers("/**").authenticated();
 
             http.formLogin(Customizer.withDefaults());
             http.logout(Customizer.withDefaults());
             http.csrf().disable();
-            http.exceptionHandling(Customizer.withDefaults());
+            http.exceptionHandling(exception -> {
+                exception.accessDeniedPage("/error");
+            });
 
             http.sessionManagement(session -> {
                 session.maximumSessions(1);
